@@ -1,43 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Servicio YouTube</title>
-    <style>
-        body { font-family: Arial; background: #f4f4f4; padding: 40px; }
-        .box { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; }
-        input { width: 100%; padding: 10px; margin-top: 10px; }
-        button { width: 100%; padding: 12px; margin-top: 15px; background: #0070ba; color: white; border: none; }
-    </style>
-</head>
-<body>
+<div id="pago">
+  <h3>Desbloquear capítulo</h3>
 
-<div class="box">
-    <h2>Comprar servicio YouTube</h2>
-
-    <input type="text" id="youtube" placeholder="Pega la URL de YouTube">
-
-    <!-- PAYPAL -->
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="TU_CORREO_PAYPAL@gmail.com">
-        <input type="hidden" name="item_name" value="Servicio para video de YouTube">
-        <input type="hidden" name="amount" value="5.00">
-        <input type="hidden" name="currency_code" value="USD">
-
-        <!-- aquí se manda la URL -->
-        <input type="hidden" name="custom" id="urlFinal">
-
-        <button type="submit" onclick="enviarURL()">Pagar con PayPal</button>
-    </form>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="TU_PAYPAL@gmail.com">
+    <input type="hidden" name="item_name" value="Álgebra 1 - Capítulo 1">
+    <input type="hidden" name="amount" value="3.00">
+    <input type="hidden" name="currency_code" value="USD">
+    <button type="submit">Pagar y ver</button>
+  </form>
 </div>
-
-<script>
-function enviarURL() {
-    let url = document.getElementById("youtube").value;
-    document.getElementById("urlFinal").value = url;
-}
-</script>
-
-</body>
-</html>
