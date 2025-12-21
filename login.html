@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -80,23 +81,22 @@
     </p>
 </div>
 
+<script src="js/auth.js"></script>
 <script>
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    if (email === "" || password === "") {
+    if (!email || !password) {
         alert("Completa todos los campos");
         return;
     }
 
-    // Login básico (temporal)
-    localStorage.setItem("usuario", email);
-
-    // Redirigir al inicio
+    iniciarSesion(email);
     window.location.href = "index.html";
 }
 </script>
+
 
 </body>
 </html>
