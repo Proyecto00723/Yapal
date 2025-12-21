@@ -82,6 +82,7 @@
     </p>
 </div>
 
+<script src="js/auth.js"></script>
 <script>
 function registrar() {
     const nombre = document.getElementById("nombre").value;
@@ -99,16 +100,11 @@ function registrar() {
         return;
     }
 
-    // Registro básico (temporal)
-    localStorage.setItem("usuario", email);
-    localStorage.setItem("nombre", nombre);
-
-    alert("Registro exitoso");
-
-    // Redirigir al inicio
+    iniciarSesion(email, nombre);
     window.location.href = "index.html";
 }
 </script>
+
 
 </body>
 </html>
