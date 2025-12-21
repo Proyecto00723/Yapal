@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Álgebra 1 - Capítulo 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #141414;
+            color: white;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #000;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .contenedor {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .pago, .video {
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f40612;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    📘 Álgebra 1 – Capítulo 2
+</header>
+
+<div class="contenedor">
+
+    <div class="info">
+        <h2>Capítulo 2: Operaciones Básicas</h2>
+        <p>
+            En este capítulo aprenderás a trabajar con suma, resta,
+            multiplicación y división en expresiones algebraicas.
+        </p>
+    </div>
+
+    <!-- SECCIÓN PAGO -->
+    <div class="pago" id="pago">
+        <h3>🔒 Contenido bloqueado</h3>
+        <p>Para ver este capítulo debes desbloquearlo.</p>
+
+        <!-- PAGO SIMULADO -->
+        <button onclick="pagar()">Pagar y ver capítulo (USD 3.00)</button>
+    </div>
+
+    <!-- SECCIÓN VIDEO -->
+    <div class="video" id="video" style="display:none;">
+        <h3>🎥 Video del capítulo</h3>
+
+        <iframe width="100%" height="400"
+            src="https://www.youtube.com/embed/ID_DEL_VIDEO_CAP2"
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <a class="volver" href="../cursos/algebra1.html">⬅ Volver al curso</a>
+</div>
+
+<script>
+    // Verificar login
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+        alert("Debes iniciar sesión para ver este contenido");
+        window.location.href = "../login.html";
+    }
+
+    const clavePago = "algebra1-cap2-pagado";
+
+    // Verificar si ya pagó
+    if (localStorage.getItem(clavePago) === "true") {
+        document.getElementById("pago").style.display = "none";
+        document.getElementById("video").style.display = "block";
+    }
+
+    // Simular pago
+    function pagar() {
+        alert("Pago simulado con éxito");
+        localStorage.setItem(clavePago, "true");
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
