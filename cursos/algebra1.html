@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Álgebra 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #141414;
+            color: white;
+        }
+
+        header {
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            background-color: #000;
+        }
+
+        .contenedor {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .curso-info {
+            margin-bottom: 30px;
+        }
+
+        .curso-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .curso-info p {
+            color: #b3b3b3;
+        }
+
+        .capitulo {
+            background-color: #1f1f1f;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .capitulo span {
+            font-size: 15px;
+        }
+
+        .capitulo a {
+            background-color: #e50914;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .capitulo a:hover {
+            background-color: #f40612;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    📘 Álgebra 1
+</header>
+
+<div class="contenedor">
+
+    <div class="curso-info">
+        <h2>Curso: Álgebra 1</h2>
+        <p>
+            Aprende los fundamentos del álgebra desde cero.
+            Curso estructurado en capítulos cortos y claros.
+        </p>
+    </div>
+
+    <!-- Capítulos -->
+    <div class="capitulo">
+        <span>Capítulo 1 – Introducción al Álgebra</span>
+        <a href="../capitulos/algebra1-cap1.html">Ver</a>
+    </div>
+
+    <div class="capitulo">
+        <span>Capítulo 2 – Operaciones Básicas</span>
+        <a href="../capitulos/algebra1-cap2.html">Ver</a>
+    </div>
+
+    <div class="capitulo">
+        <span>Capítulo 3 – Ecuaciones Simples</span>
+        <a href="../capitulos/algebra1-cap3.html">Ver</a>
+    </div>
+
+    <a class="volver" href="../index.html">⬅ Volver a cursos</a>
+</div>
+
+<script>
+    // Bloquear si no hay sesión
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+        alert("Debes iniciar sesión para ver este curso");
+        window.location.href = "../login.html";
+    }
+</script>
+
+</body>
+</html>
