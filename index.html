@@ -1,3 +1,2058 @@
-<video controls width="500">
-  <source src="MP4/PixVerse_V5.6_Image_Text_360P_puedes_aser_un_v.mp4" type="video/mp4">
-</video>
+<!doctype html>
+<html lang="es" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Style - Tienda Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="/_sdk/data_sdk.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .product-image {
+            transition: transform 0.5s ease;
+        }
+        
+        .btn-cart {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-cart:hover::before {
+            left: 100%;
+        }
+        
+        .cart-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.15s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .toast {
+            animation: toastIn 0.3s ease-out, toastOut 0.3s ease-in 2.7s forwards;
+        }
+        
+        @keyframes toastIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes toastOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+        
+        .image-viewer {
+            position: relative;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+        
+        .image-viewer.zoomed {
+            cursor: zoom-out;
+        }
+        
+        .image-viewer img {
+            transition: transform 0.3s ease;
+        }
+        
+        .image-viewer.zoomed img {
+            transform: scale(2);
+            cursor: move;
+        }
+        
+        .nav-arrow {
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+        
+        .nav-arrow:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .thumbnail-img {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .thumbnail-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .thumbnail-img.active {
+            border-color: #ff8c42 !important;
+            box-shadow: 0 0 0 2px #ff8c42;
+        }
+    </style>
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
+</head>
+
+<body class="h-full font-body">
+    <div id="app" class="h-full w-full overflow-auto" style="background: #ffffff;">
+        <!-- Header -->
+        <header id="header" class="sticky top-0 z-40 backdrop-blur-md border-b" style="background: #fff9d4; border-color: #bfdbfe;">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);">
+                            <svg viewbox="0 0 24 24" class="w-7 h-7" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+                        </div>
+                        <div>
+                            <h1 id="store-title" class="font-display text-2xl font-bold" style="color: #000000;">My <span style="color: #df8ac5;">S</span>tyle</h1>
+                            <p id="header-subtitle" class="text-xs tracking-widest uppercase" style="color: #000000;">Fashion &amp; Beauty</p>
+                        </div>
+                    </div>
+                    <!-- Admin & Cart Buttons -->
+                    <div class="flex items-center gap-3"><button onclick="openAdminLogin()" class="p-3 rounded-full transition-all hover:scale-110" style="background: #000000;">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg></button> <button id="cart-btn" onclick="openCart()" class="relative p-3 rounded-full transition-all hover:scale-110" style="background: #000000;">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg><span id="cart-count" class="cart-badge absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white" style="background: #1e40af;">0</span> </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Hero Section -->
+        <section class="relative py-16 px-4 overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-10 left-10 w-32 h-32 rounded-full" style="background: #2563eb;"></div>
+                <div class="absolute bottom-10 right-10 w-48 h-48 rounded-full" style="background: #60a5fa;"></div>
+                <div class="absolute top-1/2 left-1/2 w-24 h-24 rounded-full" style="background: #1e40af;"></div>
+            </div>
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 id="welcome-title" class="font-display text-4xl md:text-5xl font-bold mb-4" style="color: #000000;">Descubre tu estilo único</h2>
+                <p id="main-description" class="text-lg mb-8" style="color: #000000;">Moda exclusiva y tendencias que te harán brillar</p>
+                <div class="flex justify-center gap-4 flex-wrap"><button onclick="scrollToProducts()" class="btn-cart px-8 py-3 rounded-full font-semibold text-white shadow-lg hover:shadow-xl transition-all" style="background: #ff8c42;"> Ver Colección </button>
+                </div>
+            </div>
+        </section>
+        <!-- Categories -->
+        <section class="py-8 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div id="categories-bar" class="flex gap-4 overflow-x-auto pb-4 justify-center flex-wrap">
+                    <!-- Categories will be rendered dynamically here -->
+                </div>
+            </div>
+        </section>
+        <!-- Products Grid -->
+        <section id="products-section" class="py-8 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="font-display text-3xl font-bold text-center mb-10" style="color: #000000;">Nuestra Colección</h3>
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Products will be rendered here -->
+                </div>
+            </div>
+        </section>
+        <!-- Toast Container -->
+        <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+        <!-- Cart Modal -->
+        <div id="cart-modal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeCart()"></div>
+            <div class="slide-in absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+                <div class="p-6 border-b" style="border-color: #bfdbfe;">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display text-2xl font-bold" style="color: #000000;">Tu Carrito</h3><button onclick="closeCart()" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+        <svg class="w-6 h-6" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+                    </div>
+                </div>
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+                    <!-- Cart items will be rendered here -->
+                </div>
+                <div class="p-6 border-t" style="border-color: #bfdbfe; background: #f0f9ff;">
+                    <div class="flex justify-between items-center mb-4"><span class="font-semibold text-lg" style="color: #000000;">Total:</span> <span id="cart-total" class="font-display text-2xl font-bold" style="color: #000000;">$0</span>
+                    </div><button onclick="openCheckout()" id="checkout-btn" class="w-full btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed" style="background: #ff8c42;"> Finalizar Pedido </button>
+                </div>
+            </div>
+        </div>
+        <!-- Checkout Modal -->
+        <div id="checkout-modal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeCheckout()"></div>
+            <div class="fade-in absolute inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-full flex flex-col">
+                <div class="p-6 border-b" style="border-color: #bfdbfe; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display text-2xl font-bold" style="color: #000000;">Datos de Envío</h3><button onclick="closeCheckout()" class="p-2 rounded-full hover:bg-white/50 transition-colors">
+        <svg class="w-6 h-6" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+                    </div>
+                </div>
+                <form id="checkout-form" class="flex-1 overflow-y-auto p-6" onsubmit="submitOrder(event)">
+                    <!-- Home Delivery Template -->
+                    <div id="home-delivery-fields" class="space-y-4">
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre Completo *</label> <input type="text" id="customer-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="Tu nombre">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Teléfono *</label> <input type="tel" id="customer-phone" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="+57 300 000 0000">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Departamento *</label> <input type="text" id="customer-department" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Ej: Antioquia, Valle del Cauca...">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Provincia *</label> <input type="text" id="customer-province" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="Ej: Pichincha, Guayas...">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Distrito/Ciudad *</label> <input type="text" id="customer-district" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Ej: Medellín, Cali...">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Dirección Completa o Especificación *</label> <textarea id="customer-address" required rows="2" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors resize-none"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Calle, carrera, número, barrio, apartamento..."></textarea>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Notas del Pedido</label> <textarea id="customer-notes" rows="2" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors resize-none"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Instrucciones especiales..."></textarea>
+                        </div>
+                    </div>
+                    <!-- Agency Delivery Template -->
+                    <div id="agency-delivery-fields" class="space-y-4 hidden">
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre Completo *</label> <input type="text" id="agency-customer-name" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="Tu nombre">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">DNI *</label> <input type="text" id="agency-customer-dni" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="Número de documento">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Ciudad *</label> <input type="text" id="agency-customer-city" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="Tu ciudad">
+                        </div>
+                        <div><label id="agency-label" class="block text-sm font-medium mb-2" style="color: #000000;">Agencia Shalom *</label> <input type="text" id="agency-customer-agency" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Nombre de la agencia">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Celular *</label> <input type="tel" id="agency-customer-phone" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                placeholder="+57 300 000 0000">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Notas del Pedido</label> <textarea id="agency-customer-notes" rows="2" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors resize-none"
+                                style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Instrucciones especiales..."></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 rounded-xl" style="background: #dbeafe; border: 2px dashed #2563eb;">
+                        <div class="flex items-center gap-3 mb-2">
+                            <svg class="w-6 h-6" style="color: #25D366;" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg><span class="font-semibold" style="color: #000000;">Pedido vía WhatsApp</span>
+                        </div>
+                        <p class="text-sm" style="color: #000000;">Tu pedido será enviado directamente a nuestro WhatsApp con todos los detalles</p>
+                    </div><button type="submit" class="w-full mt-6 btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all flex items-center justify-center gap-3" style="background: #25D366;">
+       <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+       </svg> Enviar Pedido por WhatsApp </button>
+                </form>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="py-8 px-4 mt-12" style="background: #fff9d4;">
+            <div class="max-w-7xl mx-auto text-center">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: #ff8c42;">
+                        <svg viewbox="0 0 24 24" class="w-6 h-6" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+       </svg>
+                    </div><span id="footer-store-name" class="font-display text-xl font-bold" style="color: #000000;">My Style</span>
+                </div>
+                <p class="text-sm" style="color: #000000;">© 2024 My Style. Todos los derechos reservados.</p>
+                <p class="text-xs mt-2" style="color: #000000;">Moda y estilo para todos</p>
+            </div>
+        </footer>
+        <!-- Product Detail Modal -->
+        <div id="product-detail-modal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeProductDetail()"></div>
+            <div class="fade-in absolute inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-full flex flex-col">
+                <div class="p-6 border-b" style="border-color: #bfdbfe; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                    <div class="flex items-center justify-between">
+                        <h3 id="detail-product-name" class="font-display text-2xl font-bold" style="color: #000000;"></h3><button onclick="closeProductDetail()" class="p-2 rounded-full hover:bg-white/50 transition-colors">
+        <svg class="w-6 h-6" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <!-- Main Image Viewer -->
+                            <div id="main-image-viewer" class="relative rounded-xl overflow-hidden" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                                <!-- Main image will be rendered here -->
+                            </div>
+                            <!-- Thumbnails -->
+                            <div id="thumbnails-container" class="flex gap-2 overflow-x-auto">
+                                <!-- Thumbnails will be rendered here -->
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-4"><span class="text-sm font-medium" style="color: #000000;">Código:</span> <span id="detail-product-code" class="ml-2" style="color: #000000;"></span>
+                            </div>
+                            <p id="detail-product-description" class="mb-6 whitespace-pre-line" style="color: #000000;"></p>
+                            <div class="mb-4"><span class="font-display text-3xl font-bold" style="color: #000000;" id="detail-product-price"></span>
+                            </div>
+                            <div id="detail-stock-container" class="mb-4">
+                                <!-- Stock info will be rendered here -->
+                            </div>
+                            <div id="detail-sizes-container" class="mb-4">
+                                <!-- Sizes will be rendered here -->
+                            </div>
+                            <div id="detail-colors-container" class="mb-6">
+                                <!-- Colors will be rendered here -->
+                            </div><button onclick="addToCartFromDetail()" class="w-full btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all" style="background: #ff8c42;"> Agregar al Carrito </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Admin Login Modal -->
+        <div id="admin-login-modal" class="fixed inset-0 z-50 hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeAdminLogin()"></div>
+            <div class="fade-in absolute inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div class="p-6 border-b" style="border-color: #bfdbfe; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                    <h3 class="font-display text-2xl font-bold" style="color: #000000;">Panel de Administración</h3>
+                </div>
+                <form id="admin-login-form" class="p-6" onsubmit="loginAdmin(event)">
+                    <div class="mb-6"><label class="block text-sm font-medium mb-2" style="color: #000000;">Contraseña</label> <input type="password" id="admin-password" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                            placeholder="Ingresa la contraseña">
+                    </div>
+                    <div id="login-error" class="hidden mb-4 p-3 rounded-xl bg-red-100 text-red-600 text-sm"></div><button type="submit" class="w-full btn-cart py-3 rounded-full font-semibold text-white shadow-lg transition-all" style="background: #ff8c42;"> Iniciar Sesión </button>
+                </form>
+            </div>
+        </div>
+        <!-- Edit Product Modal -->
+        <div id="edit-product-modal" class="fixed inset-0 z-[9999] hidden">
+            <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeEditProduct()"></div>
+            <div class="fade-in absolute inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-full flex flex-col">
+                <div class="p-6 border-b" style="border-color: #bfdbfe; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display text-2xl font-bold" style="color: #000000;">Editar Producto</h3><button onclick="closeEditProduct()" class="p-2 rounded-full hover:bg-white/50 transition-colors">
+        <svg class="w-6 h-6" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+                    </div>
+                </div>
+                <form id="edit-product-form" class="flex-1 overflow-y-auto p-6" onsubmit="updateProduct(event)">
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre del Producto *</label> <input type="text" id="edit-product-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Precio *</label> <input type="number" id="edit-product-price" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Código del Producto *</label> <input type="text" id="edit-product-code" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Colección *</label> <select id="edit-product-category" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"> <option value="">Selecciona una colección</option> </select>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Unidades en Inventario *</label> <input type="number" id="edit-product-stock" required min="0" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none"
+                                    style="border-color: #bfdbfe; background: #f0f9ff;">
+                            </div>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">URLs de Imágenes (una por línea)</label> <textarea id="edit-product-images" rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none resize-none"
+                                style="border-color: #bfdbfe; background: #f0f9ff;"></textarea>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Tallas (separadas por coma)</label> <input type="text" id="edit-product-sizes" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Colores</label>
+                            <div id="edit-colors-container" class="space-y-3 mb-3">
+                                <!-- Color inputs will be added here -->
+                            </div><button type="button" onclick="addEditColorInput()" class="px-4 py-2 rounded-lg text-sm font-medium border-2" style="border-color: #ff8c42; color: #ff8c42;"> + Agregar Color </button>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Descripción *</label> <textarea id="edit-product-description" required rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none resize-none" style="border-color: #bfdbfe; background: #f0f9ff;"></textarea>
+                        </div>
+                    </div><button type="submit" id="edit-product-submit-btn" class="w-full mt-6 btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all" style="background: #ff8c42;"> Guardar Cambios </button>
+                </form>
+            </div>
+        </div>
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="fixed inset-0 z-50 hidden bg-white overflow-auto">
+            <div class="max-w-7xl mx-auto p-6">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="font-display text-3xl font-bold" style="color: #000000;">Panel de Administración</h2><button onclick="closeAdminPanel()" class="px-6 py-3 rounded-full font-semibold text-white transition-all" style="background: #ff8c42;"> Cerrar Panel </button>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6 mb-8"><button onclick="showAdminSection('settings')" class="admin-nav-btn p-6 rounded-2xl border-2 transition-all hover:shadow-lg" data-section="settings" style="border-color: #ff8c42; background: #fff9d4;">
+       <svg class="w-12 h-12 mx-auto mb-3" style="color: #ff8c42;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+       </svg><h3 class="font-display text-xl font-bold" style="color: #000000;">Configuración</h3></button> <button onclick="showAdminSection('shipping')" class="admin-nav-btn p-6 rounded-2xl border-2 transition-all hover:shadow-lg" data-section="shipping"
+                        style="border-color: #000000; background: white;">
+       <svg class="w-12 h-12 mx-auto mb-3" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg><h3 class="font-display text-xl font-bold" style="color: #000000;">Datos de Envío</h3></button> <button onclick="showAdminSection('collections')" class="admin-nav-btn p-6 rounded-2xl border-2 transition-all hover:shadow-lg" data-section="collections"
+                        style="border-color: #000000; background: white;">
+       <svg class="w-12 h-12 mx-auto mb-3" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+       </svg><h3 class="font-display text-xl font-bold" style="color: #000000;">Colecciones</h3></button> <button onclick="showAdminSection('products')" class="admin-nav-btn p-6 rounded-2xl border-2 transition-all hover:shadow-lg" data-section="products"
+                        style="border-color: #000000; background: white;">
+       <svg class="w-12 h-12 mx-auto mb-3" style="color: #000000;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+       </svg><h3 class="font-display text-xl font-bold" style="color: #000000;">Productos</h3></button>
+                </div>
+                <!-- Shipping Section -->
+                <div id="admin-shipping-section" class="admin-section hidden">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Configurar Plantillas de Datos de Envío</h3>
+                        <form id="shipping-form" onsubmit="updateShippingSettings(event)" class="space-y-6">
+                            <div class="mb-6"><label class="block text-sm font-medium mb-3" style="color: #000000;">Selecciona qué plantilla verán tus clientes:</label>
+                                <div class="flex gap-3"><button type="button" onclick="selectAdminTemplate('home')" id="admin-template-home-btn" class="flex-1 p-4 rounded-xl border-2 transition-all" style="border-color: #ff8c42; background: #fff9d4;">
+           <div class="text-3xl mb-2">
+            📦
+           </div>
+           <div class="text-sm font-semibold mb-1" style="color: #000000;">
+            Plantilla 1
+           </div>
+           <div class="text-xs" style="color: #000000;">
+            Envío a Domicilio
+           </div></button> <button type="button" onclick="selectAdminTemplate('agency')" id="admin-template-agency-btn" class="flex-1 p-4 rounded-xl border-2 transition-all" style="border-color: #bfdbfe; background: white;">
+           <div class="text-3xl mb-2">
+            🚚
+           </div>
+           <div class="text-sm font-semibold mb-1" style="color: #000000;">
+            Plantilla 2
+           </div>
+           <div class="text-xs" style="color: #000000;">
+            Envío por Agencia
+           </div></button>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl" style="background: #f0f9ff; border: 2px solid #bfdbfe;">
+                                <h4 class="font-bold text-lg mb-4" style="color: #000000;">📦 Plantilla 1: Envío a Domicilio</h4>
+                                <p class="text-sm mb-3" style="color: #000000;">Los campos son fijos:</p>
+                                <ul class="text-sm space-y-1 ml-4" style="color: #000000;">
+                                    <li>• Nombre completo</li>
+                                    <li>• Teléfono</li>
+                                    <li>• Departamento</li>
+                                    <li>• Provincia</li>
+                                    <li>• Distrito/Ciudad</li>
+                                    <li>• Dirección Completa o Especificación</li>
+                                </ul>
+                            </div>
+                            <div class="p-6 rounded-2xl" style="background: #fef3c7; border: 2px solid #fbbf24;">
+                                <h4 class="font-bold text-lg mb-4" style="color: #000000;">🚚 Plantilla 2: Envío por Agencia</h4>
+                                <div class="mb-4"><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre de la Agencia *</label> <input type="text" id="agency-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: white;"
+                                        placeholder="Ej: Agencia Shalom">
+                                    <p class="text-xs mt-1" style="color: #000000;">Este nombre aparecerá en el formulario de envío</p>
+                                </div>
+                                <p class="text-sm mb-3" style="color: #000000;">Los campos de esta plantilla son:</p>
+                                <ul class="text-sm space-y-1 ml-4" style="color: #000000;">
+                                    <li>• Nombre completo</li>
+                                    <li>• DNI</li>
+                                    <li>• Ciudad</li>
+                                    <li>• [Nombre de tu Agencia]</li>
+                                    <li>• Celular</li>
+                                </ul>
+                            </div>
+                            <div class="pt-4"><button type="submit" id="shipping-submit-btn" class="w-full btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all" style="background: #ff8c42;"> Guardar Configuración de Env    o </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Settings Section -->
+                <div id="admin-settings-section" class="admin-section">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Configuración de la Tienda</h3>
+                        <form id="settings-form" onsubmit="updateSettings(event)" class="space-y-6">
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre de la Tienda *</label> <input type="text" id="settings-store-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="My Style">
+                                <p class="text-xs mt-1" style="color: #000000;">Este nombre aparecerá en el encabezado y footer</p>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Texto de Bienvenida *</label> <input type="text" id="settings-welcome-text" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="Descubre tu estilo único">
+                                <p class="text-xs mt-1" style="color: #000000;">Mensaje principal que verán tus clientes</p>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Número de WhatsApp *</label> <input type="tel" id="settings-whatsapp" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="573202486773">
+                                <p class="text-xs mt-1" style="color: #000000;">Número completo con c digo de país (sin +, espacios ni guiones)</p>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Símbolo de Moneda *</label> <input type="text" id="settings-currency" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="$" maxlength="3">
+                                <p class="text-xs mt-1" style="color: #000000;">Símbolo que aparecerá antes de los precios</p>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Subt  tulo del Encabezado *</label> <input type="text" id="settings-header-subtitle" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none"
+                                    style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Fashion &amp; Beauty">
+                                <p class="text-xs mt-1" style="color: #000000;">Texto pequeño debajo del nombre de la tienda</p>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Descripción Principal *</label> <input type="text" id="settings-main-description" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none"
+                                    style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="Moda exclusiva y tendencias que te harán brillar">
+                                <p class="text-xs mt-1" style="color: #000000;">Descripción que aparece en la sección hero</p>
+                            </div>
+                            <div class="pt-4"><button type="submit" id="settings-submit-btn" class="w-full btn-cart py-4 rounded-full font-semibold text-white shadow-lg transition-all" style="background: #ff8c42;"> Guardar Configuración </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Collections Section -->
+                <div id="admin-collections-section" class="admin-section hidden">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Crear Nueva Colección</h3>
+                        <form id="collection-form" onsubmit="createCollection(event)" class="space-y-4">
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre de la Colección *</label> <input type="text" id="collection-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="Ej: Verano 2024">
+                            </div><button type="submit" id="collection-submit-btn" class="btn-cart px-6 py-3 rounded-full font-semibold text-white transition-all" style="background: #ff8c42;"> Crear Colección </button>
+                        </form>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Colecciones Existentes</h3>
+                        <div id="collections-list" class="space-y-3">
+                            <!-- Collections will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Products Section -->
+                <div id="admin-products-section" class="admin-section hidden">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Agregar Nuevo Producto</h3>
+                        <form id="product-form" onsubmit="createProduct(event)" class="space-y-4">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Nombre del Producto *</label> <input type="text" id="product-name" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                        placeholder="Nombre del producto">
+                                </div>
+                                <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Precio *</label> <input type="number" id="product-price" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                        placeholder="0">
+                                </div>
+                                <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Código del Producto *</label> <input type="text" id="product-code" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                        placeholder="SKU-001">
+                                </div>
+                                <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Colección *</label> <select id="product-category" required class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"> <option value="">Selecciona una colección</option> </select>
+                                </div>
+                                <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Unidades en Inventario *</label> <input type="number" id="product-stock" required min="0" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none"
+                                        style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="0">
+                                </div>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">URLs de Imágenes (una por línea)</label> <textarea id="product-images" rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none resize-none"
+                                    style="border-color: #bfdbfe; background: #f0f9ff;" placeholder="https://ejemplo.com/imagen1.jpg
+https://ejemplo.com/imagen2.jpg
+https://ejemplo.com/video.mp4"></textarea>
+
+                                <div id="preview" style="margin-top:15px;"></div>
+                                <div id="error" style="color:red; font-size:14px; margin-top:5px;"></div>
+
+                                <script>
+                                    const textarea = document.getElementById("product-images");
+                                    const preview = document.getElementById("preview");
+                                    const errorDiv = document.getElementById("error");
+
+                                    textarea.addEventListener("input", function() {
+
+                                        preview.innerHTML = "";
+                                        errorDiv.innerHTML = "";
+
+                                        const urls = textarea.value.split("\n").map(u => u.trim()).filter(u => u !== "");
+
+                                        let imageCount = 0;
+                                        let videoCount = 0;
+
+                                        urls.forEach(url => {
+
+                                            if (url.match(/\.(jpg|jpeg|png)$/i)) {
+                                                imageCount++;
+                                            } else if (url.match(/\.mp4$/i)) {
+                                                videoCount++;
+                                            }
+
+                                        });
+
+                                        if (imageCount > 2 || videoCount > 1) {
+                                            errorDiv.innerHTML = "⚠ Solo se permiten 2 imágenes y 1 video MP4.";
+                                            return;
+                                        }
+
+                                        urls.forEach(url => {
+
+                                            if (url.match(/\.(jpg|jpeg|png)$/i)) {
+                                                preview.innerHTML += `
+                <img 
+                    src="${url}" 
+                    style="width:100%; max-width:400px; border-radius:20px;
+                           box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                           margin-bottom:10px; object-fit:cover;">
+            `;
+                                            } else if (url.match(/\.mp4$/i)) {
+                                                preview.innerHTML += `
+                <video 
+                    src="${url}" 
+                    autoplay 
+                    muted 
+                    loop 
+                    playsinline
+                    style="width:100%; max-width:400px; border-radius:20px;
+                           box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                           margin-bottom:10px; object-fit:cover;">
+                </video>
+            `;
+                                            }
+
+                                        });
+
+                                    });
+                                </script>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Tallas (separadas por coma)</label> <input type="text" id="product-sizes" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="S, M, L, XL">
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Colores</label>
+                                <div id="colors-container" class="space-y-3 mb-3">
+                                    <!-- Color inputs will be added here -->
+                                </div><button type="button" onclick="addColorInput()" class="px-4 py-2 rounded-lg text-sm font-medium border-2" style="border-color: #ff8c42; color: #ff8c42;"> + Agregar Color </button>
+                            </div>
+                            <div><label class="block text-sm font-medium mb-2" style="color: #000000;">Descripción *</label> <textarea id="product-description" required rows="3" class="w-full px-4 py-3 rounded-xl border-2 focus:outline-none resize-none" style="border-color: #bfdbfe; background: #f0f9ff;"
+                                    placeholder="Descripción detallada del producto"></textarea>
+                            </div><button type="submit" id="product-submit-btn" class="btn-cart px-6 py-3 rounded-full font-semibold text-white transition-all" style="background: #ff8c42;"> Crear Producto </button>
+                        </form>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: #000000;">Productos Existentes</h3>
+                        <div id="products-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Products will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Tu textarea -->
+    <textarea id="product-images"></textarea>
+
+    <button id="guardarBtn">Guardar</button>
+
+    <div id="productos"></div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = { apiKey:
+        "AIzaSyCCDSrE_hWvYYgjNwTX85leeU3vHBLBJsY", authDomain: "stylishsteps-10fc4.firebaseapp.com", projectId: "stylishsteps-10fc4", }; const app = initializeApp(firebaseConfig); const db = getFirestore(app); document.getElementById("guardarBtn").addEventListener("click",
+        async () => { const urls = document.getElementById("product-images").value; await addDoc(collection(db, "productos"), { media: urls, fecha: new Date() }); alert("Guardado en Firebase 🔥"); cargarProductos(); }); async function cargarProductos()
+        { const querySnapshot = await getDocs(collection(db, "productos")); const contenedor = document.getElementById("productos"); contenedor.innerHTML = ""; querySnapshot.forEach(doc => { const data = doc.data(); contenedor.innerHTML += `
+        <div style="margin-bottom:20px;">
+            ${data.media.split("\n").map(url => { if(url.endsWith(".mp4")){ return `<video src="${url}" width="300" autoplay muted loop></video>`; } else { return `<img src="${url}" width="300">`; } }).join("")}
+        </div>
+        `; }); } cargarProductos();
+
+    </script>
+
+
+    <script>
+        const defaultConfig = {
+            store_name: 'My Style',
+            welcome_text: 'Descubre tu estilo único',
+            whatsapp_number: '51910724699',
+            currency_symbol: '$',
+            header_subtitle: 'Fashion & Beauty',
+            main_description: 'Moda exclusiva y tendencias que te harán brillar',
+            agency_name: 'Agencia Shalom',
+            shipping_template: 'home',
+            primary_color: '#ff8c42',
+            secondary_color: '#1e40af',
+            background_color: '#f0f9ff',
+            text_color: '#1e293b',
+            accent_color: '#60a5fa'
+        };
+
+        let config = {...defaultConfig
+        };
+        let cart = [];
+        let currentCategory = 'all';
+        let allData = [];
+        let products = [];
+        let collections = [];
+        let selectedProductForDetail = null;
+        let selectedSizeInDetail = null;
+        let selectedColorInDetail = null;
+        let currentImageIndex = 0;
+        let currentImages = [];
+        let isImageZoomed = false;
+        let colorInputCount = 0;
+        let editColorInputCount = 0;
+        let editingProduct = null;
+        const ADMIN_PASSWORD = '#@MyStyle20@#';
+
+
+        const dataHandler = {
+            onDataChanged(data) {
+                allData = data;
+                collections = data.filter(item => item.type === 'collection');
+                products = data.filter(item => item.type === 'product');
+                const settingsRecord = data.find(item => item.type === 'settings');
+
+
+                if (settingsRecord) {
+                    config.store_name = settingsRecord.store_name || defaultConfig.store_name;
+                    config.welcome_text = settingsRecord.welcome_text || defaultConfig.welcome_text;
+                    config.whatsapp_number = settingsRecord.whatsapp_number || defaultConfig.whatsapp_number;
+                    config.currency_symbol = settingsRecord.currency_symbol || defaultConfig.currency_symbol;
+                    config.header_subtitle = settingsRecord.header_subtitle || defaultConfig.header_subtitle;
+                    config.main_description = settingsRecord.main_description || defaultConfig.main_description;
+                    config.agency_name = settingsRecord.agency_name || defaultConfig.agency_name;
+                    config.shipping_template = settingsRecord.shipping_template || defaultConfig.shipping_template;
+
+                    updateUIWithSettings();
+                }
+
+                renderCategories();
+                renderProducts();
+                updateCartUI();
+                renderAdminCollections();
+                renderAdminProducts();
+                updateCategorySelect();
+            }
+        };
+
+
+        async function initDataSDK() {
+            if (window.dataSdk) {
+                const result = await window.dataSdk.init(dataHandler);
+                if (!result.isOk) {
+                    console.error('Failed to initialize Data SDK');
+                }
+            }
+        }
+
+
+        function formatPrice(price) {
+            return config.currency_symbol + price.toLocaleString('es-CO');
+        }
+
+
+        function updateUIWithSettings() {
+            const storeName = config.store_name || defaultConfig.store_name;
+            const storeTitle = document.getElementById('store-title');
+            if (storeName.includes('Style')) {
+                storeTitle.innerHTML = storeName.replace(/S(tyle)/, '<span style="color: #df8ac5;">S</span>$1');
+            } else {
+                storeTitle.textContent = storeName;
+            }
+            document.getElementById('footer-store-name').textContent = storeName;
+            document.getElementById('welcome-title').textContent = config.welcome_text || defaultConfig.welcome_text;
+            document.getElementById('header-subtitle').textContent = config.header_subtitle || defaultConfig.header_subtitle;
+            document.getElementById('main-description').textContent = config.main_description || defaultConfig.main_description;
+        }
+
+
+        function renderCategories() {
+            const categoriesBar = document.getElementById('categories-bar');
+
+            if (collections.length === 0) {
+                categoriesBar.innerHTML = `
+          <div class="text-center py-4 w-full">
+            <p style="color: #000000;">No hay colecciones creadas. Ve al panel de administración para crear colecciones.</p>
+          </div>
+        `;
+                return;
+            }
+
+            let categoriesHTML = `
+        <button onclick="filterCategory('all')" class="category-btn px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all" data-category="all" style="background: ${currentCategory === 'all' ? config.primary_color : 'white'}; color: ${currentCategory === 'all' ? 'white' : '#000000'}; border: 2px solid ${currentCategory === 'all' ? config.primary_color : '#000000'};">
+          Todos
+        </button>
+      `;
+
+            collections.forEach(collection => {
+                const isActive = currentCategory === collection.name;
+                categoriesHTML += `
+          <button onclick="filterCategory('${collection.name}')" class="category-btn px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all" data-category="${collection.name}" style="background: ${isActive ? config.primary_color : 'white'}; color: ${isActive ? 'white' : '#000000'}; border: 2px solid ${isActive ? config.primary_color : '#000000'};">
+            ${collection.name}
+          </button>
+        `;
+            });
+
+            categoriesBar.innerHTML = categoriesHTML;
+        }
+
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const filteredProducts = currentCategory === 'all' ?
+                products :
+                products.filter(p => p.category === currentCategory);
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-lg" style="color: #000000;">No hay productos disponibles</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => {
+                        const images = product.images ? product.images.split('\n').filter(url => url.trim()) : [];
+                        const firstImage = images[0] || '';
+
+                        return `
+        <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" data-category="${product.category}" onclick="openProductDetail('${product.__backendId}')">
+          <div class="relative overflow-hidden aspect-square flex items-center justify-center" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+            ${firstImage ? `
+              <img src="${firstImage}" alt="${product.name}" class="product-image w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="hidden w-full h-full items-center justify-center text-6xl">  ️</div>
+            ` : `
+              <span class="product-image text-8xl">🛍️</span>
+            `}
+            <div class="absolute top-3 right-3">
+              <span class="px-3 py-1 rounded-full text-xs font-medium text-white" style="background: ${config.primary_color};">
+                ${product.category}
+              </span>
+            </div>
+            ${product.stock <= 0 ? `
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span class="text-white font-bold text-lg">AGOTADO</span>
+              </div>
+            ` : ''}
+          </div>
+          <div class="p-5">
+            <h4 class="font-display text-lg font-bold mb-1" style="color: #000000;">${product.name}</h4>
+            <p class="text-sm mb-3 line-clamp-2" style="color: #000000;">${product.description}</p>
+            <div class="flex items-center justify-between mt-4">
+              <span class="font-display text-xl font-bold" style="color: #000000;">${formatPrice(product.price)}</span>
+              <span class="text-xs px-3 py-1 rounded-full" style="background: #dbeafe; color: #000000;">${product.stock} disponibles</span>
+            </div>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    // Open product detail modal
+    function openProductDetail(productId) {
+      const product = products.find(p => p.__backendId === productId);
+      if (!product) return;
+
+      selectedProductForDetail = product;
+      const images = product.images ? product.images.split('\n').filter(url => url.trim()) : [];
+      currentImages = images.length > 0 ? images : [''];
+      currentImageIndex = 0;
+      isImageZoomed = false;
+      
+      const sizes = product.sizes ? product.sizes.split(',').map(s => s.trim()).filter(s => s) : [];
+      const colorsData = product.colors ? JSON.parse(product.colors) : [];
+
+      // Reset selections
+      selectedSizeInDetail = sizes.length > 0 ? sizes[0] : null;
+      selectedColorInDetail = colorsData.length > 0 ? colorsData[0] : null;
+
+      document.getElementById('detail-product-name').textContent = product.name;
+      document.getElementById('detail-product-code').textContent = product.code;
+      document.getElementById('detail-product-description').textContent = product.description;
+      document.getElementById('detail-product-price').textContent = formatPrice(product.price);
+
+      // Render main image viewer
+      renderMainImageViewer();
+
+      // Render thumbnails
+      renderThumbnails();
+
+      // Render stock
+      document.getElementById('detail-stock-container').innerHTML = `
+        <div class="px-4 py-2 rounded-xl inline-block" style="background: ${product.stock > 0 ? '#dbeafe' : '#fee2e2'};">
+          <span class="font-semibold" style="color: #000000;">Stock: ${product.stock} unidades</span>
+        </div>
+      `;
+
+      // Render sizes
+      if (sizes.length > 0) {
+        document.getElementById('detail-sizes-container').innerHTML = `
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color: #000000;">Selecciona una talla:</label>
+            <div class="flex flex-wrap gap-2">
+              ${sizes.map(size => `
+                <button onclick="selectSizeInDetail('${size}')" data-size="${size}" class="size-btn px-4 py-2 rounded-lg border-2 transition-all" style="border-color: ${selectedSizeInDetail === size ? config.primary_color : '#bfdbfe'}; background: ${selectedSizeInDetail === size ? config.primary_color : 'white'}; color: ${selectedSizeInDetail === size ? 'white' : '#000000'};">
+                  ${size}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        document.getElementById('detail-sizes-container').innerHTML = '';
+      }
+
+      // Render colors
+      if (colorsData.length > 0) {
+        document.getElementById('detail-colors-container').innerHTML = `
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color: #000000;">Selecciona un color:</label>
+            <div class="flex flex-wrap gap-3">
+              ${colorsData.map(color => `
+                <button onclick='selectColorInDetail(${JSON.stringify(color).replace(/'/g, "&apos;")})' data-color="${color.hex}" class="color-btn flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all" style="border-color: ${selectedColorInDetail && selectedColorInDetail.hex === color.hex ? config.primary_color : '#bfdbfe'};">
+                  <div class="w-6 h-6 rounded-full border-2" style="background: ${color.hex}; border-color: #000000;"></div>
+                  <span style="color: #000000;">${color.name}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        document.getElementById('detail-colors-container').innerHTML = '';
+      }
+
+      document.getElementById('product-detail-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderMainImageViewer() {
+      const mainViewer = document.getElementById('main-image-viewer');
+      const currentUrl = currentImages[currentImageIndex];
+      const showArrows = currentImages.length > 1 && currentImages[0] !== '';
+
+      if (currentUrl) {
+        mainViewer.innerHTML = `
+          ${showArrows ? `
+            <button onclick="previousImage()" class="nav-arrow absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 rounded-full p-3 shadow-lg" style="color: #000000;">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button onclick="nextImage()" class="nav-arrow absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 rounded-full p-3 shadow-lg" style="color: #000000;">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          ` : ''}
+          <div class="image-viewer flex items-center justify-center min-h-[400px]" onclick="toggleZoom(event)" onmousemove="handleZoomPan(event)">
+            <img src="${currentUrl}" alt="${selectedProductForDetail.name}" class="max-w-full max-h-[600px] w-auto h-auto object-contain" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="hidden w-full h-full items-center justify-center text-8xl">🛍️</div>
+          </div>
+          ${showArrows ? `
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+              ${currentImageIndex + 1} / ${currentImages.length}
+            </div>
+          ` : ''}
+        `;
+      } else {
+        mainViewer.innerHTML = `
+          <div class="flex items-center justify-center min-h-[400px] text-8xl">🛍️</div>
+        `;
+      }
+    }
+
+    function renderThumbnails() {
+      const container = document.getElementById('thumbnails-container');
+      
+      if (currentImages.length <= 1 || currentImages[0] === '') {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = currentImages.map((url, index) => `
+        <div onclick="selectImage(${index})" class="thumbnail-img w-20 h-20 rounded-lg border-2 overflow-hidden flex-shrink-0 ${index === currentImageIndex ? 'active' : ''}" style="border-color: ${index === currentImageIndex ? config.primary_color : '#bfdbfe'};">
+          <img src="${url}" alt="Imagen ${index + 1}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-2xl\'>🛍️</div>';">
+        </div>
+      `).join('');
+    }
+
+    function selectImage(index) {
+      currentImageIndex = index;
+      isImageZoomed = false;
+      renderMainImageViewer();
+      renderThumbnails();
+    }
+
+    function previousImage() {
+      currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+      isImageZoomed = false;
+      renderMainImageViewer();
+      renderThumbnails();
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+      isImageZoomed = false;
+      renderMainImageViewer();
+      renderThumbnails();
+    }
+
+    function toggleZoom(event) {
+      const viewer = event.currentTarget;
+      const img = viewer.querySelector('img');
+      
+      if (!img || img.style.display === 'none') return;
+
+      isImageZoomed = !isImageZoomed;
+      
+      if (isImageZoomed) {
+        viewer.classList.add('zoomed');
+      } else {
+        viewer.classList.remove('zoomed');
+        img.style.transformOrigin = 'center center';
+      }
+    }
+
+    function handleZoomPan(event) {
+      const viewer = event.currentTarget;
+      const img = viewer.querySelector('img');
+      
+      if (!isImageZoomed || !img || img.style.display === 'none') return;
+
+      const rect = viewer.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      
+      img.style.transformOrigin = `${x}% ${y}%`;
+    }
+
+    function selectSizeInDetail(size) {
+      selectedSizeInDetail = size;
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        if (btn.dataset.size === size) {
+          btn.style.borderColor = config.primary_color;
+          btn.style.background = config.primary_color;
+          btn.style.color = 'white';
+        } else {
+          btn.style.borderColor = '#bfdbfe';
+          btn.style.background = 'white';
+          btn.style.color = '#000000';
+        }
+      });
+    }
+
+    function selectColorInDetail(colorObj) {
+      selectedColorInDetail = colorObj;
+      document.querySelectorAll('.color-btn').forEach(btn => {
+        if (btn.dataset.color === colorObj.hex) {
+          btn.style.borderColor = config.primary_color;
+        } else {
+          btn.style.borderColor = '#bfdbfe';
+        }
+      });
+    }
+
+    function closeProductDetail() {
+      document.getElementById('product-detail-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      selectedProductForDetail = null;
+      selectedSizeInDetail = null;
+      selectedColorInDetail = null;
+      currentImageIndex = 0;
+      currentImages = [];
+      isImageZoomed = false;
+    }
+
+    function addToCartFromDetail() {
+      if (!selectedProductForDetail) return;
+      if (selectedProductForDetail.stock <= 0) {
+        showToast('⚠️ Producto agotado');
+        return;
+      }
+
+      const cartItem = {
+        ...selectedProductForDetail,
+        cartId: Date.now(),
+        selectedSize: selectedSizeInDetail,
+        selectedColor: selectedColorInDetail,
+        quantity: 1
+      };
+
+      cart.push(cartItem);
+      updateCartUI();
+      showToast(`${selectedProductForDetail.name} agregado al carrito`);
+      closeProductDetail();
+    }
+
+    // Filter by category
+    function filterCategory(category) {
+      currentCategory = category;
+      renderProducts();
+      renderCategories();
+    }
+
+    // Remove from cart
+    function removeFromCart(cartId) {
+      cart = cart.filter(item => item.cartId !== cartId);
+      updateCartUI();
+    }
+
+    // Update quantity
+    function updateQuantity(cartId, delta) {
+      const item = cart.find(i => i.cartId === cartId);
+      if (item) {
+        item.quantity = Math.max(1, item.quantity + delta);
+        updateCartUI();
+      }
+    }
+
+    // Update cart UI
+    function updateCartUI() {
+      const cartCount = document.getElementById('cart-count');
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-center">
+            <span class="text-6xl mb-4">      </span>
+            <p class="font-medium" style="color: #000000;">Tu carrito está vacío</p>
+            <p class="text-sm mt-2" style="color: #000000;">¡Agrega productos para comenzar!</p>
+          </div>
+        `;
+        checkoutBtn.disabled = true;
+      } else {
+        cartItems.innerHTML = cart.map(item => {
+          const images = item.images ? item.images.split('\n').filter(url => url.trim()) : [];
+          const firstImage = images[0] || '';
+          
+          return `
+          <div class="flex gap-4 p-4 rounded-xl mb-4" style="background: #f0f9ff;">
+            <div class="w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden" style="background: white;">
+              ${firstImage ? `
+                <img src="${firstImage}" alt="${item.name}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="hidden text-3xl">🛍️</span>
+              ` : `
+                <span class="text-3xl">🛍️</span>
+              `}
+            </div>
+            <div class="flex-1">
+              <h4 class="font-medium" style="color: #000000;">${item.name}</h4>
+              <div class="text-xs mt-1" style="color: #000000;">
+                ${item.selectedSize ? `Talla: ${item.selectedSize}` : ''}
+                ${item.selectedSize && item.selectedColor ? ' | ' : ''}
+                ${item.selectedColor ? `Color: ${item.selectedColor.name}` : ''}
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-2">
+                  <button onclick="updateQuantity(${item.cartId}, -1)" class="w-6 h-6 rounded-full flex items-center justify-center text-white text-sm" style="background: ${config.primary_color};">-</button>
+                  <span class="font-medium">${item.quantity}</span>
+                  <button onclick="updateQuantity(${item.cartId}, 1)" class="w-6 h-6 rounded-full flex items-center justify-center text-white text-sm" style="background: ${config.primary_color};">+</button>
+                </div>
+                <span class="font-semibold" style="color: #000000;">${formatPrice(item.price * item.quantity)}</span>
+              </div>
+            </div>
+            <button onclick="removeFromCart(${item.cartId})" class="text-red-400 hover:text-red-600 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        `;
+        }).join('');
+        checkoutBtn.disabled = false;
+      }
+
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      cartTotal.textContent = formatPrice(total);
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast px-6 py-3 rounded-full shadow-lg text-white font-medium mb-2';
+      toast.style.background = config.primary_color;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Cart modal functions
+    function openCart() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      document.getElementById('cart-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Checkout modal functions
+    function openCheckout() {
+      if (cart.length === 0) return;
+      closeCart();
+      
+      // Use the template configured by admin
+      const template = config.shipping_template || defaultConfig.shipping_template || 'home';
+      const homeFields = document.getElementById('home-delivery-fields');
+      const agencyFields = document.getElementById('agency-delivery-fields');
+
+      if (template === 'home') {
+        homeFields.classList.remove('hidden');
+        agencyFields.classList.add('hidden');
+        
+        // Set required on home fields
+        document.getElementById('customer-name').required = true;
+        document.getElementById('customer-phone').required = true;
+        document.getElementById('customer-department').required = true;
+        document.getElementById('customer-province').required = true;
+        document.getElementById('customer-district').required = true;
+        document.getElementById('customer-address').required = true;
+        
+        // Remove required from agency fields
+        document.getElementById('agency-customer-name').required = false;
+        document.getElementById('agency-customer-dni').required = false;
+        document.getElementById('agency-customer-city').required = false;
+        document.getElementById('agency-customer-agency').required = false;
+        document.getElementById('agency-customer-phone').required = false;
+      } else {
+        agencyFields.classList.remove('hidden');
+        homeFields.classList.add('hidden');
+        
+        // Remove required from home fields
+        document.getElementById('customer-name').required = false;
+        document.getElementById('customer-phone').required = false;
+        document.getElementById('customer-department').required = false;
+        document.getElementById('customer-province').required = false;
+        document.getElementById('customer-district').required = false;
+        document.getElementById('customer-address').required = false;
+        
+        // Set required on agency fields
+        document.getElementById('agency-customer-name').required = true;
+        document.getElementById('agency-customer-dni').required = true;
+        document.getElementById('agency-customer-city').required = true;
+        document.getElementById('agency-customer-agency').required = true;
+        document.getElementById('agency-customer-phone').required = true;
+        
+        // Update agency label with configured name
+        const agencyName = config.agency_name || defaultConfig.agency_name || 'Agencia Shalom';
+        document.getElementById('agency-label').textContent = agencyName + ' *';
+      }
+      
+      document.getElementById('checkout-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('checkout-form').reset();
+    }
+
+    // Submit order to WhatsApp
+    function submitOrder(e) {
+      e.preventDefault();
+      
+      let message = `Hola, quiero hacer un pedido.\n\n`;
+      
+      const template = config.shipping_template || defaultConfig.shipping_template || 'home';
+      
+      if (template === 'home') {
+        const name = document.getElementById('customer-name').value;
+        const phone = document.getElementById('customer-phone').value;
+        const province = document.getElementById('customer-province').value;
+        const department = document.getElementById('customer-department').value;
+        const district = document.getElementById('customer-district').value;
+        const address = document.getElementById('customer-address').value;
+        const notes = document.getElementById('customer-notes').value;
+
+        message += `👤 *Datos del Cliente (Envío a Domicilio):*\n`;
+        message += `• Nombre completo: ${name}\n`;
+        message += `• Teléfono: ${phone}\n`;
+        message += `• Departamento: ${department}\n`;
+        message += `• Provincia: ${province}\n`;
+        message += `• Distrito/Ciudad: ${district}\n`;
+        message += `• Dirección Completa: ${address}\n`;
+        if (notes) message += `• Notas: ${notes}\n`;
+      } else {
+        const name = document.getElementById('agency-customer-name').value;
+        const dni = document.getElementById('agency-customer-dni').value;
+        const city = document.getElementById('agency-customer-city').value;
+        const agency = document.getElementById('agency-customer-agency').value;
+        const phone = document.getElementById('agency-customer-phone').value;
+        const notes = document.getElementById('agency-customer-notes').value;
+        const agencyName = config.agency_name || defaultConfig.agency_name || 'Agencia Shalom';
+
+        message += `👤 *Datos del Cliente (Envío por Agencia):*\n`;
+        message += `• Nombre completo: ${name}\n`;
+        message += `    DNI: ${dni}\n`;
+        message += `• Ciudad: ${city}\n`;
+        message += `• ${agencyName}: ${agency}\n`;
+        message += `• Celular: ${phone}\n`;
+        if (notes) message += `• Notas: ${notes}\n`;
+      }
+      
+      message += `\n📦 *Productos:*\n`;
+      message += `─────────────────\n`;
+      
+      cart.forEach((item, index) => {
+        message += `${index + 1}. *${item.name}* (${item.code})\n`;
+        
+        // Add product image URL if available
+        const images = item.images ? item.images.split('\n').filter(url => url.trim()) : [];
+        if (images.length > 0) {
+          message += `   🔗 URL: ${images[0]}\n`;
+        }
+        
+        if (item.selectedSize) message += `   Talla: ${item.selectedSize}\n`;
+        if (item.selectedColor) message += `   Color: ${item.selectedColor.name}\n`;
+        message += `   Cantidad: ${item.quantity}\n`;
+        message += `   Precio: ${formatPrice(item.price * item.quantity)}\n`;
+        message += `\n`;
+      });
+
+      message += `─────────────────\n`;
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      message += `💰 *TOTAL: ${formatPrice(total)}*\n\n`;
+      message += `📅 Fecha: ${new Date().toLocaleDateString('es-CO', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })}`;
+
+      let whatsappNumber = config.whatsapp_number.replace(/\D/g, '');
+      if (!whatsappNumber) {
+        showToast('⚠️ Configura el número de WhatsApp');
+        return;
+      }
+
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+
+      cart = [];
+      updateCartUI();
+      closeCheckout();
+      document.getElementById('checkout-form').reset();
+      showToast('✅ Pedido enviado correctamente');
+    }
+
+    // Scroll to products
+    function scrollToProducts() {
+      document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Admin Functions
+    function openAdminLogin() {
+      document.getElementById('admin-login-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAdminLogin() {
+      document.getElementById('admin-login-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('admin-password').value = '';
+      document.getElementById('login-error').classList.add('hidden');
+    }
+
+    function loginAdmin(e) {
+      e.preventDefault();
+      const password = document.getElementById('admin-password').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        closeAdminLogin();
+        document.getElementById('admin-panel').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        showAdminSection('settings');
+      } else {
+        const errorEl = document.getElementById('login-error');
+        errorEl.textContent = '❌ Contraseña incorrecta';
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('admin-panel').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function showAdminSection(section) {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+      document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        if (btn.getAttribute('onclick').includes(section)) {
+          btn.style.borderColor = config.primary_color;
+          btn.style.background = '#fff9d4';
+        } else {
+          btn.style.borderColor = '#000000';
+          btn.style.background = 'white';
+        }
+      });
+      
+      if (section === 'settings') {
+        document.getElementById('admin-settings-section').classList.remove('hidden');
+        loadSettingsForm();
+      } else if (section === 'shipping') {
+        document.getElementById('admin-shipping-section').classList.remove('hidden');
+        loadShippingForm();
+      } else if (section === 'collections') {
+        document.getElementById('admin-collections-section').classList.remove('hidden');
+      } else if (section === 'products') {
+        document.getElementById('admin-products-section').classList.remove('hidden');
+      }
+    }
+
+    function selectAdminTemplate(template) {
+      const homeBtn = document.getElementById('admin-template-home-btn');
+      const agencyBtn = document.getElementById('admin-template-agency-btn');
+
+      if (template === 'home') {
+        homeBtn.style.borderColor = config.primary_color;
+        homeBtn.style.background = '#fff9d4';
+        agencyBtn.style.borderColor = '#bfdbfe';
+        agencyBtn.style.background = 'white';
+      } else {
+        agencyBtn.style.borderColor = config.primary_color;
+        agencyBtn.style.background = '#fff9d4';
+        homeBtn.style.borderColor = '#bfdbfe';
+        homeBtn.style.background = 'white';
+      }
+      
+      // Save template to database
+      const settingsRecord = allData.find(item => item.type === 'settings');
+      
+      if (settingsRecord) {
+        const updatedSettings = {
+          ...settingsRecord,
+          shipping_template: template
+        };
+        window.dataSdk.update(updatedSettings).then(result => {
+          if (result.isOk) {
+            config.shipping_template = template;
+          }
+        });
+      } else {
+        const settingsData = {
+          id: 'settings_' + Date.now(),
+          type: 'settings',
+          shipping_template: template,
+          createdAt: new Date().toISOString()
+        };
+        window.dataSdk.create(settingsData).then(result => {
+          if (result.isOk) {
+            config.shipping_template = template;
+          }
+        });
+      }
+    }
+
+    function loadShippingForm() {
+      document.getElementById('agency-name').value = config.agency_name || defaultConfig.agency_name || 'Agencia Shalom';
+      
+      // Select the active template
+      const template = config.shipping_template || defaultConfig.shipping_template || 'home';
+      const homeBtn = document.getElementById('admin-template-home-btn');
+      const agencyBtn = document.getElementById('admin-template-agency-btn');
+
+      if (template === 'home') {
+        homeBtn.style.borderColor = config.primary_color;
+        homeBtn.style.background = '#fff9d4';
+        agencyBtn.style.borderColor = '#bfdbfe';
+        agencyBtn.style.background = 'white';
+      } else {
+        agencyBtn.style.borderColor = config.primary_color;
+        agencyBtn.style.background = '#fff9d4';
+        homeBtn.style.borderColor = '#bfdbfe';
+        homeBtn.style.background = 'white';
+      }
+    }
+
+    async function updateShippingSettings(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('shipping-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      const agencyName = document.getElementById('agency-name').value;
+      const template = config.shipping_template || defaultConfig.shipping_template || 'home';
+
+      // Update local config
+      config.agency_name = agencyName;
+      config.shipping_template = template;
+
+      // Save to database
+      const settingsRecord = allData.find(item => item.type === 'settings');
+      
+      if (settingsRecord) {
+        const updatedSettings = {
+          ...settingsRecord,
+          agency_name: agencyName,
+          shipping_template: template
+        };
+        const result = await window.dataSdk.update(updatedSettings);
+        if (result.isOk) {
+          showToast('✅ Configuración de envío actualizada');
+        } else {
+          showToast('❌ Error al guardar configuración');
+        }
+      } else {
+        const newSettingsData = {
+          id: 'settings_' + Date.now(),
+          type: 'settings',
+          agency_name: agencyName,
+          shipping_template: template,
+          store_name: config.store_name || defaultConfig.store_name,
+          welcome_text: config.welcome_text || defaultConfig.welcome_text,
+          whatsapp_number: config.whatsapp_number || defaultConfig.whatsapp_number,
+          currency_symbol: config.currency_symbol || defaultConfig.currency_symbol,
+          header_subtitle: config.header_subtitle || defaultConfig.header_subtitle,
+          main_description: config.main_description || defaultConfig.main_description,
+          createdAt: new Date().toISOString()
+        };
+        const result = await window.dataSdk.create(newSettingsData);
+        if (result.isOk) {
+          showToast('✅ Configuración de envío actualizada');
+        } else {
+          showToast('❌ Error al guardar configuración');
+        }
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Guardar Configuración de Envío';
+    }
+
+    function loadSettingsForm() {
+      document.getElementById('settings-store-name').value = config.store_name || defaultConfig.store_name;
+      document.getElementById('settings-welcome-text').value = config.welcome_text || defaultConfig.welcome_text;
+      document.getElementById('settings-whatsapp').value = config.whatsapp_number || defaultConfig.whatsapp_number;
+      document.getElementById('settings-currency').value = config.currency_symbol || defaultConfig.currency_symbol;
+      document.getElementById('settings-header-subtitle').value = config.header_subtitle || defaultConfig.header_subtitle;
+      document.getElementById('settings-main-description').value = config.main_description || defaultConfig.main_description;
+    }
+
+    async function updateSettings(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('settings-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      const storeName = document.getElementById('settings-store-name').value;
+      const welcomeText = document.getElementById('settings-welcome-text').value;
+      const whatsappNumber = document.getElementById('settings-whatsapp').value;
+      const currencySymbol = document.getElementById('settings-currency').value;
+      const headerSubtitle = document.getElementById('settings-header-subtitle').value;
+      const mainDescription = document.getElementById('settings-main-description').value;
+
+      // Update local config
+      config.store_name = storeName;
+      config.welcome_text = welcomeText;
+      config.whatsapp_number = whatsappNumber;
+      config.currency_symbol = currencySymbol;
+      config.header_subtitle = headerSubtitle;
+      config.main_description = mainDescription;
+
+      // Update UI immediately
+      updateUIWithSettings();
+
+      // Save to database
+      const settingsRecord = allData.find(item => item.type === 'settings');
+      
+      if (settingsRecord) {
+        const updatedSettings = {
+          ...settingsRecord,
+          store_name: storeName,
+          welcome_text: welcomeText,
+          whatsapp_number: whatsappNumber,
+          currency_symbol: currencySymbol,
+          header_subtitle: headerSubtitle,
+          main_description: mainDescription
+        };
+        const result = await window.dataSdk.update(updatedSettings);
+        if (result.isOk) {
+          showToast('✅ Configuración actualizada');
+        } else {
+          showToast('❌ Error al guardar configuración');
+        }
+      } else {
+        const newSettingsData = {
+          id: 'settings_' + Date.now(),
+          type: 'settings',
+          store_name: storeName,
+          welcome_text: welcomeText,
+          whatsapp_number: whatsappNumber,
+          currency_symbol: currencySymbol,
+          header_subtitle: headerSubtitle,
+          main_description: mainDescription,
+          agency_name: config.agency_name || defaultConfig.agency_name,
+          shipping_template: config.shipping_template || defaultConfig.shipping_template,
+          createdAt: new Date().toISOString()
+        };
+        const result = await window.dataSdk.create(newSettingsData);
+        if (result.isOk) {
+          showToast('✅ Configuración actualizada');
+        } else {
+          showToast('❌ Error al guardar configuración');
+        }
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Guardar Configuraci  n';
+    }
+
+    async function createCollection(e) {
+      e.preventDefault();
+      const btn = document.getElementById('collection-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Creando...';
+
+      const name = document.getElementById('collection-name').value;
+      
+      const newCollection = {
+        id: 'col_' + Date.now(),
+        name: name,
+        type: 'collection',
+        createdAt: new Date().toISOString()
+      };
+
+      const result = await window.dataSdk.create(newCollection);
+      
+      if (result.isOk) {
+        showToast('✅ Colección creada');
+        document.getElementById('collection-form').reset();
+      } else {
+        showToast('❌ Error al crear colección');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Crear Colección';
+    }
+
+    async function deleteCollection(collectionId) {
+      const collection = collections.find(c => c.__backendId === collectionId);
+      if (!collection) return;
+
+      const productsInCollection = products.filter(p => p.category === collection.name);
+      if (productsInCollection.length > 0) {
+        showToast('⚠️ No puedes eliminar una colección con productos');
+        return;
+      }
+
+      const result = await window.dataSdk.delete(collection);
+      if (result.isOk) {
+        showToast('✅ Colección eliminada');
+      } else {
+        showToast('❌ Error al eliminar');
+      }
+    }
+
+    function renderAdminCollections() {
+      const container = document.getElementById('collections-list');
+      if (collections.length === 0) {
+        container.innerHTML = '<p class="text-center" style="color: #000000;">No hay colecciones creadas</p>';
+        return;
+      }
+
+      container.innerHTML = collections.map(col => `
+        <div class="flex items-center justify-between p-4 rounded-xl" style="background: #f0f9ff;">
+          <span class="font-medium" style="color: #000000;">${col.name}</span>
+          <button onclick="deleteCollection('${col.__backendId}')" class="px-4 py-2 rounded-lg text-white text-sm" style="background: #ef4444;">
+            Eliminar
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function updateCategorySelect() {
+      const select = document.getElementById('product-category');
+      select.innerHTML = '<option value="">Selecciona una colección</option>' +
+        collections.map(col => `<option value="${col.name}">${col.name}</option>`).join('');
+    }
+
+    function addColorInput() {
+      const container = document.getElementById('colors-container');
+      const id = colorInputCount++;
+      
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-3';
+      div.id = `color-input-${id}`;
+      div.innerHTML = `
+        <input type="color" id="color-hex-${id}" class="w-12 h-12 rounded-lg border-2 cursor-pointer" style="border-color: #bfdbfe;" value="#000000">
+        <input type="text" id="color-name-${id}" placeholder="Nombre del color" class="flex-1 px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+        <button type="button" onclick="removeColorInput(${id})" class="px-4 py-2 rounded-lg text-white" style="background: #ef4444;">
+          Quitar
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function removeColorInput(id) {
+      document.getElementById(`color-input-${id}`).remove();
+    }
+
+    function addEditColorInput(hexValue = '#000000', nameValue = '') {
+      const container = document.getElementById('edit-colors-container');
+      const id = editColorInputCount++;
+      
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-3';
+      div.id = `edit-color-input-${id}`;
+      div.innerHTML = `
+        <input type="color" id="edit-color-hex-${id}" class="w-12 h-12 rounded-lg border-2 cursor-pointer" style="border-color: #bfdbfe;" value="${hexValue}">
+        <input type="text" id="edit-color-name-${id}" placeholder="Nombre del color" value="${nameValue}" class="flex-1 px-4 py-3 rounded-xl border-2 focus:outline-none" style="border-color: #bfdbfe; background: #f0f9ff;">
+        <button type="button" onclick="removeEditColorInput(${id})" class="px-4 py-2 rounded-lg text-white" style="background: #ef4444;">
+          Quitar
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function removeEditColorInput(id) {
+      document.getElementById(`edit-color-input-${id}`).remove();
+    }
+
+    async function createProduct(e) {
+      e.preventDefault();
+      
+      if (allData.length >= 999) {
+        showToast('⚠️ Límite de 999 registros alcanzado');
+        return;
+      }
+
+      const btn = document.getElementById('product-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Creando...';
+
+      const colors = [];
+      const colorInputs = document.querySelectorAll('#colors-container > div');
+      colorInputs.forEach(div => {
+        const id = div.id.split('-')[2];
+        const hex = document.getElementById(`color-hex-${id}`).value;
+        const name = document.getElementById(`color-name-${id}`).value;
+        if (name) {
+          colors.push({ hex, name });
+        }
+      });
+
+      const newProduct = {
+        id: 'prod_' + Date.now(),
+        name: document.getElementById('product-name').value,
+        price: parseFloat(document.getElementById('product-price').value),
+        code: document.getElementById('product-code').value,
+        category: document.getElementById('product-category').value,
+        stock: parseInt(document.getElementById('product-stock').value),
+        images: document.getElementById('product-images').value.trim(),
+        sizes: document.getElementById('product-sizes').value.trim(),
+        colors: JSON.stringify(colors),
+        description: document.getElementById('product-description').value,
+        type: 'product',
+        createdAt: new Date().toISOString()
+      };
+
+      const result = await window.dataSdk.create(newProduct);
+      
+      if (result.isOk) {
+        showToast('✅ Producto creado');
+        document.getElementById('product-form').reset();
+        document.getElementById('colors-container').innerHTML = '';
+        colorInputCount = 0;
+      } else {
+        showToast('❌ Error al crear producto');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Crear Producto';
+    }
+
+    function editProduct(productId) {
+      const product = products.find(p => p.__backendId === productId);
+      if (!product) return;
+
+      editingProduct = product;
+
+      // Fill form with current product data
+      document.getElementById('edit-product-name').value = product.name;
+      document.getElementById('edit-product-price').value = product.price;
+      document.getElementById('edit-product-code').value = product.code;
+      document.getElementById('edit-product-stock').value = product.stock;
+      document.getElementById('edit-product-images').value = product.images || '';
+      document.getElementById('edit-product-sizes').value = product.sizes || '';
+      document.getElementById('edit-product-description').value = product.description;
+
+      // Update category select
+      const categorySelect = document.getElementById('edit-product-category');
+      categorySelect.innerHTML = '<option value="">Selecciona una colección</option>' +
+        collections.map(col => `<option value="${col.name}" ${col.name === product.category ? 'selected' : ''}>${col.name}</option>`).join('');
+
+      // Load colors
+      const editColorsContainer = document.getElementById('edit-colors-container');
+      editColorsContainer.innerHTML = '';
+      editColorInputCount = 0;
+
+      const colorsData = product.colors ? JSON.parse(product.colors) : [];
+      colorsData.forEach(color => {
+        addEditColorInput(color.hex, color.name);
+      });
+
+      // Open modal
+      document.getElementById('edit-product-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditProduct() {
+      document.getElementById('edit-product-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      editingProduct = null;
+      document.getElementById('edit-colors-container').innerHTML = '';
+      editColorInputCount = 0;
+    }
+
+    async function updateProduct(e) {
+      e.preventDefault();
+
+      if (!editingProduct) return;
+
+      const btn = document.getElementById('edit-product-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      // Collect colors
+      const colors = [];
+      const colorInputs = document.querySelectorAll('#edit-colors-container > div');
+      colorInputs.forEach(div => {
+        const id = div.id.split('-')[3];
+        const hex = document.getElementById(`edit-color-hex-${id}`).value;
+        const name = document.getElementById(`edit-color-name-${id}`).value;
+        if (name) {
+          colors.push({ hex, name });
+        }
+      });
+
+      // Update product with new data
+      const updatedProduct = {
+        ...editingProduct,
+        name: document.getElementById('edit-product-name').value,
+        price: parseFloat(document.getElementById('edit-product-price').value),
+        code: document.getElementById('edit-product-code').value,
+        category: document.getElementById('edit-product-category').value,
+        stock: parseInt(document.getElementById('edit-product-stock').value),
+        images: document.getElementById('edit-product-images').value.trim(),
+        sizes: document.getElementById('edit-product-sizes').value.trim(),
+        colors: JSON.stringify(colors),
+        description: document.getElementById('edit-product-description').value
+      };
+
+      const result = await window.dataSdk.update(updatedProduct);
+      
+      if (result.isOk) {
+        showToast('✅ Producto actualizado');
+        closeEditProduct();
+      } else {
+        showToast('❌ Error al actualizar producto');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Guardar Cambios';
+    }
+
+    async function deleteProduct(productId) {
+      const product = products.find(p => p.__backendId === productId);
+      if (!product) return;
+
+      const result = await window.dataSdk.delete(product);
+      if (result.isOk) {
+        showToast('✅ Producto eliminado');
+      } else {
+        showToast('❌ Error al eliminar');
+      }
+    }
+
+    function renderAdminProducts() {
+      const container = document.getElementById('products-list');
+      if (products.length === 0) {
+        container.innerHTML = '<p class="col-span-full text-center" style="color: #000000;">No hay productos creados</p>';
+        return;
+      }
+
+      container.innerHTML = products.map(product => {
+        const images = product.images ? product.images.split('\n').filter(url => url.trim()) : [];
+        const firstImage = images[0] || '';
+        
+        return `
+        <div class="bg-white rounded-xl shadow p-4">
+          <div class="aspect-square rounded-lg mb-3 overflow-hidden" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+            ${firstImage ? `
+              <img src="${firstImage}" alt="${product.name}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none';">
+            ` : `
+              <div class="w-full h-full flex items-center justify-center text-6xl">🛍️</div>
+            `}
+          </div>
+          <h4 class="font-bold mb-1" style="color: #000000;">${product.name}</h4>
+          <p class="text-sm mb-2" style="color: #000000;">${product.code}</p>
+          <p class="text-lg font-bold mb-2" style="color: #000000;">${formatPrice(product.price)}</p>
+          <p class="text-xs mb-3" style="color: #000000;">Stock: ${product.stock}</p>
+          <div class="flex gap-2">
+            <button onclick="editProduct('${product.__backendId}')" class="flex-1 px-4 py-2 rounded-lg text-white text-sm" style="background: #ff8c42;">
+              Editar
+            </button>
+            <button onclick="deleteProduct('${product.__backendId}')" class="flex-1 px-4 py-2 rounded-lg text-white text-sm" style="background: #ef4444;">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    // Config change handler
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+      
+      const storeName = config.store_name || defaultConfig.store_name;
+      const storeTitle = document.getElementById('store-title');
+      if (storeName.includes('Style')) {
+        storeTitle.innerHTML = storeName.replace(/S(tyle)/, '<span style="color: #df8ac5;">S</span>$1');
+      } else {
+        storeTitle.textContent = storeName;
+      }
+      document.getElementById('footer-store-name').textContent = storeName;
+      
+      document.getElementById('welcome-title').textContent = config.welcome_text || defaultConfig.welcome_text;
+      document.getElementById('header-subtitle').textContent = config.header_subtitle || defaultConfig.header_subtitle;
+      document.getElementById('main-description').textContent = config.main_description || defaultConfig.main_description;
+      
+      renderProducts();
+      updateCartUI();
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (value) => { cfg.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+            },
+            {
+              get: () => cfg.accent_color || defaultConfig.accent_color,
+              set: (value) => { cfg.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (value) => { cfg.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+            },
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (value) => { cfg.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+            },
+            {
+              get: () => cfg.secondary_color || defaultConfig.secondary_color,
+              set: (value) => { cfg.secondary_color = value; window.elementSdk.setConfig({ secondary_color: value }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['store_name', cfg.store_name || defaultConfig.store_name],
+          ['welcome_text', cfg.welcome_text || defaultConfig.welcome_text],
+          ['whatsapp_number', cfg.whatsapp_number || defaultConfig.whatsapp_number],
+          ['currency_symbol', cfg.currency_symbol || defaultConfig.currency_symbol],
+          ['header_subtitle', cfg.header_subtitle || defaultConfig.header_subtitle],
+          ['main_description', cfg.main_description || defaultConfig.main_description]
+        ])
+      });
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initDataSDK();
+      renderCategories();
+      renderProducts();
+      updateCartUI();
+    });
+    </script>
+    <script>
+        (function() {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'9c873c48f532952a',t:'MTc3MDE3NzM1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>
