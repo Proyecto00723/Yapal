@@ -2,90 +2,26 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Generador de QR Gratis</title>
-
-<!-- Librería QR -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-<style>
-    body {
-        font-family: Arial;
-        text-align: center;
-        background: #f4f4f4;
-        padding: 20px;
-    }
-    input {
-        width: 80%;
-        padding: 10px;
-        margin: 10px;
-        font-size: 16px;
-    }
-    button {
-        padding: 10px 20px;
-        font-size: 16px;
-        margin: 5px;
-        cursor: pointer;
-    }
-    canvas {
-        margin-top: 20px;
-    }
-</style>
-</head>
-
-<body>
-
-<h2>📱 Generador de Código QR</h2>
-
-<input type="text" id="url" placeholder="Ingresa tu URL aquí">
-<br>
-
-<button onclick="generarQR()">Generar QR</button>
-<button onclick="descargarQR()">Descargar QR</button>
-
-<br>
-<canvas id="qrCanvas"></canvas>
+<title>Redirigiendo...</title>
 
 <script>
+window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    const destino = params.get("destino");
 
-// 🔴 IMPORTANTE: CAMBIA ESTA URL POR TU WEB REAL
-const BASE_URL = "https://tuweb.netlify.app/control.html";
-
-function generarQR() {
-    const original = document.getElementById("url").value.trim();
-
-    if (!original) {
-        alert("Ingresa una URL válida");
-        return;
+    if (destino) {
+        // Redirige automáticamente
+        window.location.href = destino;
+    } else {
+        document.body.innerHTML = "<h2>No se encontró destino</h2>";
     }
-
-    // Construye la URL completa
-    const urlFinal = BASE_URL + "?destino=" + encodeURIComponent(original);
-
-    // Genera el QR
-    QRCode.toCanvas(document.getElementById("qrCanvas"), urlFinal, function (error) {
-        if (error) {
-            console.error(error);
-            alert("Error al generar QR");
-        }
-    });
-}
-
-// ✅ Descargar QR
-function descargarQR() {
-    const canvas = document.getElementById("qrCanvas");
-
-    if (!canvas || canvas.width === 0) {
-        alert("Primero genera el QR");
-        return;
-    }
-
-    const enlace = document.createElement("a");
-    enlace.download = "codigo_qr.png";
-    enlace.href = canvas.toDataURL("image/png");
-    enlace.click();
-}
-
+};
 </script>
+
+</head>
+<body>
+
+<h2>🔄 Redirigiendo...</h2>
 
 </body>
 </html>
