@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Generador de QR Gratis</title>
+
+<!-- Librería QR -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 <style>
     body {
         font-family: Arial;
@@ -28,9 +31,10 @@
     }
 </style>
 </head>
+
 <body>
 
-<h2> Generador de Código QR</h2>
+<h2>📱 Generador de Código QR</h2>
 
 <input type="text" id="url" placeholder="Ingresa tu URL aquí">
 <br>
@@ -42,18 +46,45 @@
 <canvas id="qrCanvas"></canvas>
 
 <script>
+
+// 🔴 IMPORTANTE: CAMBIA ESTA URL POR TU WEB REAL
+const BASE_URL = "https://tuweb.netlify.app/control.html";
+
 function generarQR() {
-    const original = document.getElementById("url").value;
+    const original = document.getElementById("url").value.trim();
 
     if (!original) {
         alert("Ingresa una URL válida");
         return;
     }
 
-    const url = "control.html?destino=" + encodeURIComponent(original);
+    // Construye la URL completa
+    const urlFinal = BASE_URL + "?destino=" + encodeURIComponent(original);
 
-    QRCode.toCanvas(document.getElementById("qrCanvas"), url);
+    // Genera el QR
+    QRCode.toCanvas(document.getElementById("qrCanvas"), urlFinal, function (error) {
+        if (error) {
+            console.error(error);
+            alert("Error al generar QR");
+        }
+    });
 }
+
+// ✅ Descargar QR
+function descargarQR() {
+    const canvas = document.getElementById("qrCanvas");
+
+    if (!canvas || canvas.width === 0) {
+        alert("Primero genera el QR");
+        return;
+    }
+
+    const enlace = document.createElement("a");
+    enlace.download = "codigo_qr.png";
+    enlace.href = canvas.toDataURL("image/png");
+    enlace.click();
+}
+
 </script>
 
 </body>
