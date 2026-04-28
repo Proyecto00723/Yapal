@@ -2,26 +2,128 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Redirigiendo...</title>
+<title>QR Pro Generator</title>
 
-<script>
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const destino = params.get("destino");
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-    if (destino) {
-        // Redirige automáticamente
-        window.location.href = destino;
-    } else {
-        document.body.innerHTML = "<h2>No se encontró destino</h2>";
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+        color: white;
+        text-align: center;
+        padding: 40px;
     }
-};
-</script>
 
+    .card {
+        background: #2f2f4f;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        display: inline-block;
+    }
+
+    input {
+        width: 90%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin: 15px 0;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 12px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-generate {
+        background: #00c9a7;
+        color: white;
+    }
+
+    .btn-download {
+        background: #845ec2;
+        color: white;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    canvas {
+        margin-top: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 15px;
+    }
+</style>
 </head>
+
 <body>
 
-<h2>🔄 Redirigiendo...</h2>
+<h1>🚀 QR Generator Pro</h1>
+
+<div class="card">
+
+<input type="text" id="url" placeholder="https://ejemplo.com">
+
+<br>
+
+<button class="btn-generate" onclick="generarQR()">Generar QR</button>
+<button class="btn-download" onclick="descargarQR()">Descargar</button>
+
+<br>
+
+<canvas id="qrCanvas"></canvas>
+
+</div>
+
+<script>
+
+function generarQR() {
+    let url = document.getElementById("url").value.trim();
+
+    if (!url) {
+        alert("Ingresa una URL");
+        return;
+    }
+
+    // Auto arreglar URL
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+    }
+
+    QRCode.toCanvas(document.getElementById("qrCanvas"), url, {
+        width: 250,
+        margin: 2,
+        color: {
+            dark: "#000000",
+            light: "#ffffff"
+        }
+    });
+}
+
+function descargarQR() {
+    const canvas = document.getElementById("qrCanvas");
+
+    if (canvas.width === 0) {
+        alert("Primero genera el QR");
+        return;
+    }
+
+    const link = document.createElement("a");
+    link.download = "qr_pro.png";
+    link.href = canvas.toDataURL();
+    link.click();
+}
+
+</script>
 
 </body>
 </html>
