@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>QR Advanced Generator</title>
+<title>QR Pro System</title>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
@@ -12,77 +12,120 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: #1e1e2f;
     color: white;
+    text-align: center;
+}
+
+/* BOTÓN */
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.open {
+    background: #00c9a7;
+    color: white;
+}
+
+/* FONDO OSCURO */
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/* VENTANA */
+.modal {
+    background: white;
+    color: black;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 20px;
     display: flex;
+    overflow: hidden;
+    animation: aparecer 0.3s ease;
+}
+
+/* ANIMACIÓN */
+@keyframes aparecer {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* IZQUIERDA */
 .main {
     flex: 2;
+    padding: 20px;
     text-align: center;
-    padding: 40px;
 }
 
 /* DERECHA */
 .panel {
     flex: 1;
-    background: #2a2a40;
+    background: #f4f4f4;
     padding: 20px;
-    border-left: 2px solid #444;
 }
 
+/* INPUTS */
 input, select {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border-radius: 8px;
-    border: none;
+    border: 1px solid #ccc;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.generate {
-    background: #00c9a7;
-}
-
-.download {
-    background: #845ec2;
-}
-
+/* QR CARD */
 .card {
-    background: white;
-    color: black;
-    padding: 15px;
+    background: #fff;
     border-radius: 15px;
+    padding: 10px;
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-/* MARCO DECORATIVO */
 .title-box {
     border: 2px solid black;
     padding: 5px;
     margin-bottom: 10px;
     font-weight: bold;
 }
+
+/* CERRAR */
+.close {
+    background: red;
+    color: white;
+    width: 100%;
+}
 </style>
 </head>
 
 <body>
 
+<h1>🚀 QR PRO SYSTEM</h1>
+
+<button class="open" onclick="abrirModal()">Abrir Generador QR</button>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+
+<div class="modal">
+
 <!-- IZQUIERDA -->
 <div class="main">
 
-<h1>🚀 QR PRO SYSTEM</h1>
+<h3>QR Generado</h3>
 
 <div id="qrContainer" class="card" style="display:none;">
-    <div class="title-box" id="qrTitle">Título</div>
+    <div class="title-box" id="qrTitle">QR</div>
     <canvas id="qrCanvas"></canvas>
 </div>
 
@@ -91,35 +134,38 @@ button {
 <!-- DERECHA -->
 <div class="panel">
 
-<h2>⚙️ Ajustes</h2>
+<h3>Ajustes</h3>
 
-<label>URL</label>
 <input type="text" id="url" placeholder="https://ejemplo.com">
+<input type="text" id="titulo" placeholder="Título del QR">
 
-<label>Título del QR</label>
-<input type="text" id="titulo" placeholder="Ej: Acceso VIP">
-
-<label>Tiempo de vida</label>
-<select id="tiempo">
-    <option value="0">Sin límite</option>
-    <option value="60">1 minuto</option>
-    <option value="3600">1 hora</option>
-    <option value="86400">1 día</option>
+<select disabled>
+    <option>⏳ En desarrollo (QR temporal)</option>
 </select>
 
-<button class="generate" onclick="generarQR()">Generar QR</button>
-<button class="download" onclick="descargarQR()">Descargar</button>
+<button onclick="generarQR()">Generar</button>
+<button onclick="descargarQR()">Descargar</button>
+<button class="close" onclick="cerrarModal()">Cerrar</button>
 
+</div>
+
+</div>
 </div>
 
 <script>
 
-let expiracion = 0;
+function abrirModal() {
+    document.getElementById("modal").style.display = "flex";
+}
 
+function cerrarModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// GENERAR QR
 function generarQR() {
     let url = document.getElementById("url").value.trim();
     let titulo = document.getElementById("titulo").value.trim();
-    let tiempo = parseInt(document.getElementById("tiempo").value);
 
     if (!url) {
         alert("Ingresa una URL");
@@ -130,9 +176,6 @@ function generarQR() {
         url = "https://" + url;
     }
 
-    // Simulación de expiración (solo visual)
-    expiracion = tiempo > 0 ? Date.now() + tiempo * 1000 : 0;
-
     document.getElementById("qrTitle").innerText = titulo || "QR GENERADO";
 
     QRCode.toCanvas(document.getElementById("qrCanvas"), url);
@@ -140,7 +183,7 @@ function generarQR() {
     document.getElementById("qrContainer").style.display = "inline-block";
 }
 
-// DESCARGA
+// DESCARGAR
 function descargarQR() {
     const canvas = document.getElementById("qrCanvas");
 
@@ -154,15 +197,6 @@ function descargarQR() {
     link.href = canvas.toDataURL();
     link.click();
 }
-
-// SIMULACIÓN DE EXPIRACIÓN
-setInterval(() => {
-    if (expiracion && Date.now() > expiracion) {
-        document.getElementById("qrContainer").style.display = "none";
-        alert("Este QR ha expirado (simulado)");
-        expiracion = 0;
-    }
-}, 1000);
 
 </script>
 
