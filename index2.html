@@ -2,113 +2,145 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>QR Pro Generator</title>
+<title>QR Advanced Generator</title>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-        color: white;
-        text-align: center;
-        padding: 40px;
-    }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+}
 
-    .card {
-        background: #2f2f4f;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        display: inline-block;
-    }
+/* IZQUIERDA */
+.main {
+    flex: 2;
+    text-align: center;
+    padding: 40px;
+}
 
-    input {
-        width: 90%;
-        padding: 12px;
-        border-radius: 10px;
-        border: none;
-        margin: 15px 0;
-        font-size: 16px;
-    }
+/* DERECHA */
+.panel {
+    flex: 1;
+    background: #2a2a40;
+    padding: 20px;
+    border-left: 2px solid #444;
+}
 
-    button {
-        padding: 12px 20px;
-        margin: 5px;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+}
 
-    .btn-generate {
-        background: #00c9a7;
-        color: white;
-    }
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-    .btn-download {
-        background: #845ec2;
-        color: white;
-    }
+.generate {
+    background: #00c9a7;
+}
 
-    button:hover {
-        transform: scale(1.05);
-    }
+.download {
+    background: #845ec2;
+}
 
-    canvas {
-        margin-top: 20px;
-        background: white;
-        padding: 10px;
-        border-radius: 15px;
-    }
+.card {
+    background: white;
+    color: black;
+    padding: 15px;
+    border-radius: 15px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* MARCO DECORATIVO */
+.title-box {
+    border: 2px solid black;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
-<h1>🚀 QR Generator Pro</h1>
+<!-- IZQUIERDA -->
+<div class="main">
 
-<div class="card">
+<h1>🚀 QR PRO SYSTEM</h1>
 
+<div id="qrContainer" class="card" style="display:none;">
+    <div class="title-box" id="qrTitle">Título</div>
+    <canvas id="qrCanvas"></canvas>
+</div>
+
+</div>
+
+<!-- DERECHA -->
+<div class="panel">
+
+<h2>⚙️ Ajustes</h2>
+
+<label>URL</label>
 <input type="text" id="url" placeholder="https://ejemplo.com">
 
-<br>
+<label>Título del QR</label>
+<input type="text" id="titulo" placeholder="Ej: Acceso VIP">
 
-<button class="btn-generate" onclick="generarQR()">Generar QR</button>
-<button class="btn-download" onclick="descargarQR()">Descargar</button>
+<label>Tiempo de vida</label>
+<select id="tiempo">
+    <option value="0">Sin límite</option>
+    <option value="60">1 minuto</option>
+    <option value="3600">1 hora</option>
+    <option value="86400">1 día</option>
+</select>
 
-<br>
-
-<canvas id="qrCanvas"></canvas>
+<button class="generate" onclick="generarQR()">Generar QR</button>
+<button class="download" onclick="descargarQR()">Descargar</button>
 
 </div>
 
 <script>
 
+let expiracion = 0;
+
 function generarQR() {
     let url = document.getElementById("url").value.trim();
+    let titulo = document.getElementById("titulo").value.trim();
+    let tiempo = parseInt(document.getElementById("tiempo").value);
 
     if (!url) {
         alert("Ingresa una URL");
         return;
     }
 
-    // Auto arreglar URL
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    if (!url.startsWith("http")) {
         url = "https://" + url;
     }
 
-    QRCode.toCanvas(document.getElementById("qrCanvas"), url, {
-        width: 250,
-        margin: 2,
-        color: {
-            dark: "#000000",
-            light: "#ffffff"
-        }
-    });
+    // Simulación de expiración (solo visual)
+    expiracion = tiempo > 0 ? Date.now() + tiempo * 1000 : 0;
+
+    document.getElementById("qrTitle").innerText = titulo || "QR GENERADO";
+
+    QRCode.toCanvas(document.getElementById("qrCanvas"), url);
+
+    document.getElementById("qrContainer").style.display = "inline-block";
 }
 
+// DESCARGA
 function descargarQR() {
     const canvas = document.getElementById("qrCanvas");
 
@@ -122,6 +154,15 @@ function descargarQR() {
     link.href = canvas.toDataURL();
     link.click();
 }
+
+// SIMULACIÓN DE EXPIRACIÓN
+setInterval(() => {
+    if (expiracion && Date.now() > expiracion) {
+        document.getElementById("qrContainer").style.display = "none";
+        alert("Este QR ha expirado (simulado)");
+        expiracion = 0;
+    }
+}, 1000);
 
 </script>
 
