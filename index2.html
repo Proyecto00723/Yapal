@@ -36,7 +36,10 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px); /* desenfoque general */
+    
     display: none;
     justify-content: center;
     align-items: center;
@@ -44,13 +47,20 @@ button {
 
 /* VENTANA */
 .modal {
-    background: white;
-    color: black;
+    background: rgba(255, 255, 255, 0.15); /* semi transparente */
+    backdrop-filter: blur(15px); /* 🔥 DESENFOQUE */
+    -webkit-backdrop-filter: blur(15px); /* compatibilidad */
+    
+    color: white;
     width: 90%;
     max-width: 800px;
     border-radius: 20px;
     display: flex;
     overflow: hidden;
+    
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
     animation: aparecer 0.3s ease;
 }
 
@@ -69,11 +79,10 @@ button {
 
 /* DERECHA */
 .panel {
-    flex: 1;
-    background: #f4f4f4;
-    padding: 20px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    color: white;
 }
-
 /* INPUTS */
 input, select {
     width: 100%;
