@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador de QR Gratis</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<style>
+    body {
+        font-family: Arial;
+        text-align: center;
+        background: #f4f4f4;
+        padding: 20px;
+    }
+    input {
+        width: 80%;
+        padding: 10px;
+        margin: 10px;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 5px;
+        cursor: pointer;
+    }
+    canvas {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h2> Generador de Código QR</h2>
+
+<input type="text" id="url" placeholder="Ingresa tu URL aquí">
+<br>
+
+<button onclick="generarQR()">Generar QR</button>
+<button onclick="descargarQR()">Descargar QR</button>
+
+<br>
+<canvas id="qrCanvas"></canvas>
+
+<script>
+function generarQR() {
+    const original = document.getElementById("url").value;
+
+    if (!original) {
+        alert("Ingresa una URL válida");
+        return;
+    }
+
+    const url = "control.html?destino=" + encodeURIComponent(original);
+
+    QRCode.toCanvas(document.getElementById("qrCanvas"), url);
+}
+</script>
+
+</body>
+</html>
